@@ -16,9 +16,11 @@ def upload():
 @app.route('/uploader', methods = ['POST'])
 def uploader():
       if request.method == 'POST':
-            for f in request.files:
+            counter = 0
+            for f in request.files.getlist('file'):
                   f.save(os.path.join(app.config['UPLOAD_FOLDER'],secure_filename(f.filename)))
-            return 'file uploaded successfully'
+                  counter = counter + 1
+            return 'file%s uploaded successfully' % ('s' if counter > 1 else '')
                   
 if __name__ == '__main__':
       setup_files_folder()
